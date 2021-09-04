@@ -97,10 +97,17 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                 GestureDetector(
                                     onTap: () {
                                       // Get.to();
+                                      isDarkMode.value=!isDarkMode.value;
+                                      print(isDarkMode.value);
+                                      isDarkMode.notifyListeners();
+                                      if(isDarkMode.value){
+                                        Get.changeTheme(ThemeData.dark());
+                                      }
+                                      else{
+                                        Get.changeTheme(ThemeData.light());
+                                      }
 
-                                      Get.changeTheme(Get.isDarkMode
-                                          ? ThemeData.light()
-                                          : ThemeData.dark());
+
                                     },
                                     child: const Icon(
                                       Icons.dark_mode_outlined,

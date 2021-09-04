@@ -59,6 +59,15 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                 GestureDetector(
                     onTap:(){
                       // Get.to();
+                      isDarkMode.value=!isDarkMode.value;
+                      print(isDarkMode.value);
+                      isDarkMode.notifyListeners();
+                      if(isDarkMode.value){
+                        Get.changeTheme(ThemeData.dark());
+                      }
+                      else{
+                        Get.changeTheme(ThemeData.light());
+                      }
 
                       Get.changeTheme(Get.isDarkMode?ThemeData.light():ThemeData.dark());
 

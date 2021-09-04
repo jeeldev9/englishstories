@@ -5,3 +5,7 @@ DBHelper dbHelper=DBHelper();
 
 
 ValueNotifier<bool> isBookmarked=ValueNotifier(false);
+
+ValueNotifier<bool> isDarkMode=ValueNotifier(false);
+ValueNotifier<bool> isDailyNotification=ValueNotifier(true);
+

@@ -16,9 +16,8 @@ class BookMarkScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withAlpha(510),
+      backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
-        backgroundColor: Colors.teal,
         title: const Text("Bookmarks"),
       ),
       body:SingleChildScrollView(

@@ -10,7 +10,7 @@ import 'bookmark_screen.dart';
 class CategoryHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // print("${dbHelper.remedieTypeDataList}");
+    double w=MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -60,6 +60,71 @@ class CategoryHome extends StatelessWidget {
                 Get.to(() => const BookMarkScreen());
               },
             ),
+
+            const Divider(
+              thickness: 1.3,
+            ),
+            Container(
+                padding: const EdgeInsets.only(left: 15),
+                child: const Text(
+                  "Settings",
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 16,
+                  ),
+                )),
+            ValueListenableBuilder(valueListenable: isDarkMode, builder: (context,c,v){
+              return ListTile(
+                title:Row(
+                  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                  children:  [
+                    const Text('Dark Mode'),
+                    Container(
+                      width: w*0.1,
+                      height: 30,
+
+                      child: CupertinoSwitch(value: isDarkMode.value, onChanged: (v){
+                        isDarkMode.value=v;
+                        if(isDarkMode.value){
+                          Get.changeTheme(ThemeData.dark());
+                        }
+                        else{
+                          Get.changeTheme(ThemeData.light());
+                        }
+                        isDarkMode.notifyListeners();
+                      },),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Get.back();
+                },
+              );
+            }),
+
+            ValueListenableBuilder(valueListenable: isDailyNotification, builder: (context,c,v){
+              return ListTile(
+                title:Row(
+                  mainAxisAlignment:  MainAxisAlignment.spaceBetween,
+                  children:  [
+                    const Text('Daily Notification'),
+                    SizedBox(
+                      width: w*0.1,
+                      height: 30,
+
+                      child: CupertinoSwitch(value: isDailyNotification.value, onChanged: (v){
+                        isDailyNotification.value=v;
+                        isDailyNotification.notifyListeners();
+                      },),
+                    ),
+                  ],
+                ),
+                onTap: () {
+                  Get.back();
+                },
+              );
+            }),
+
             const Divider(
               thickness: 1.3,
             ),
@@ -72,6 +137,19 @@ class CategoryHome extends StatelessWidget {
                     fontSize: 16,
                   ),
                 )),
+
+            ListTile(
+              title:Row(
+                children:  [
+                  Icon(CupertinoIcons.star_fill,color:context.theme.iconTheme.color,),
+                  const SizedBox(width: 30,),
+                  const Text('Rate App'),
+                ],
+              ),
+              onTap: () {
+                Get.back();
+              },
+            ),
             ListTile(
               title:Row(
                 children:  [
@@ -84,6 +162,31 @@ class CategoryHome extends StatelessWidget {
                 Get.back();
               },
             ),
+            ListTile(
+              title:Row(
+                children:  [
+                  Icon(CupertinoIcons.info,color:context.theme.iconTheme.color,),
+                  const SizedBox(width: 30,),
+                  const Text('About Us'),
+                ],
+              ),
+              onTap: () {
+                Get.back();
+              },
+            ),
+            ListTile(
+              title:Row(
+                children:  [
+                  Icon(CupertinoIcons.phone,color:context.theme.iconTheme.color,),
+                  const SizedBox(width: 30,),
+                  const Text('Contact Us'),
+                ],
+              ),
+              onTap: () {
+                Get.back();
+              },
+            ),
+
           ],
         ),
       ),
