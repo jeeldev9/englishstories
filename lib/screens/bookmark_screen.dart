@@ -15,6 +15,7 @@ class BookMarkScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    double w=MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       appBar: AppBar(
@@ -48,7 +49,7 @@ class BookMarkScreen extends StatelessWidget {
                           children: [
 
                             Container(
-                                width:350,child: Text(dbHelper.bookmarkList.value[index]['title'],style: Theme.of(context).textTheme.subtitle1)),
+                                width:w*0.7,child: Text(dbHelper.bookmarkList.value[index]['title'],style: Theme.of(context).textTheme.subtitle1)),
                           ],
                         ),
                         Image.asset("assets/images/arrow_blue.png",height: 40,width: 35,),

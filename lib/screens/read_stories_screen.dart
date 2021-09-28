@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:share/share.dart';
 
 class ReadStoryScreen extends StatefulWidget {
   List<String> subCategoryNameList;
@@ -85,7 +86,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
               snap: false,
               floating: true,
               expandedHeight: 160.0,
-              centerTitle:  true,
+              
               actions: [
                 //change light to dark theme
                 ValueListenableBuilder(
@@ -109,10 +110,12 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
 
 
                                     },
-                                    child: const Icon(
-                                      Icons.dark_mode_outlined,
-                                      size: 28,
-                                    )),
+                                    child:  ValueListenableBuilder(
+                                      valueListenable: isDarkMode,
+                                      builder: (context,c,v){
+                                        return isDarkMode.value?Image.asset("assets/icons/icons8-full-moon-96.png",height: 35,width: 35,):Image.asset("assets/icons/icons8-sun-96.png",height: 35,width: 35,);
+                                      },
+                                    ),),
                                 const SizedBox(
                                   width: 15,
                                 ),
@@ -188,6 +191,25 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                 const SizedBox(
                                   width: 15,
                                 ),
+
+                                //Share Story Button
+
+                                GestureDetector(
+                                  onTap: () async {
+                                      Share.share(description.value);
+                                    },
+                                  child: Container(
+                                    color:Colors.transparent,
+                                    child: const Icon(
+                                      Icons.share,
+                                      size: 28,
+
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  width: 15,
+                                ),
                               ],
                             )
                           : Container();
@@ -209,7 +231,25 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                 GestureDetector(
                                   onTap: () {
                                     if (counter.value == 0) {
-                                      print("first index");
+                                      Get.snackbar(
+                                        "",
+                                        "",
+                                        titleText: Container(
+                                          margin: const EdgeInsets.only(top: 22),
+                                          child:  Text(
+                                            "This is First Story....",
+                                            style: TextStyle(
+                                              color: isDarkMode.value?CupertinoColors.white:CupertinoColors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        backgroundColor: Theme.of(context).cardColor,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        shouldIconPulse: false,
+                                        borderRadius: 10.0,
+                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                      );
                                     } else {
                                       counter.value -= 1;
                                       title.value = widget
@@ -220,18 +260,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                       description.notifyListeners();
                                     }
                                   },
-                                  child: Container(
-                                    padding: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border:
-                                            Border.all(color: Colors.green)),
-                                    child: const Icon(
-                                      CupertinoIcons.left_chevron,
-                                      color: Colors.white,
-                                      size: 10,
-                                    ),
-                                  ),
+                                  child: Image.asset("assets/icons/previous.png",width: 16),
                                 ),
                                 const SizedBox(width: 10,),
                                 ValueListenableBuilder(
@@ -253,7 +282,25 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                   onTap: () {
                                     if (counter.value ==
                                         widget.subCategoryNameList.length) {
-                                      print("last index");
+                                      Get.snackbar(
+                                        "",
+                                        "",
+                                        titleText: Container(
+                                          margin: const EdgeInsets.only(top: 22),
+                                          child:  Text(
+                                            "This is Last Story....",
+                                            style: TextStyle(
+                                              color: isDarkMode.value?CupertinoColors.white:CupertinoColors.black,
+                                              fontSize: 18,
+                                            ),
+                                          ),
+                                        ),
+                                        backgroundColor: Theme.of(context).cardColor,
+                                        snackPosition: SnackPosition.BOTTOM,
+                                        shouldIconPulse: false,
+                                        borderRadius: 10.0,
+                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                      );
                                     } else {
                                       counter.value += 1;
                                       title.value = widget
@@ -264,18 +311,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                       description.notifyListeners();
                                     }
                                   },
-                                  child: Container(
-                                    padding: EdgeInsets.all(1),
-                                    decoration: BoxDecoration(
-                                        shape: BoxShape.circle,
-                                        border:
-                                            Border.all(color: Colors.green)),
-                                    child: const Icon(
-                                      CupertinoIcons.right_chevron,
-                                      color: Colors.white,
-                                      size: 10,
-                                    ),
-                                  ),
+                                  child: Image.asset("assets/icons/next.png",width: 16),
                                 ),
                               ],
                             )
@@ -331,7 +367,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                             valueListenable: description,
                             builder: (context, c, v) {
                               return Container(
-                                  padding: EdgeInsets.symmetric(
+                                  padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 10),
                                   child: Text(
                                     "${description.value}",
