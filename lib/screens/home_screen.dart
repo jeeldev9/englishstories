@@ -1,11 +1,9 @@
 import 'dart:async';
-
 import 'package:englishstories/constant_veriable.dart';
 import 'package:englishstories/screens/category_home.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,14 +14,13 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  
   startTime() async {
-    var duration = Duration(seconds: 6);
+    var duration = const Duration(seconds: 4);
     return Timer(duration, route);
   }
 
   route() {
-    Get.offAll(CategoryHome());
+    Get.offAll(const CategoryHome());
   }
 
   @override

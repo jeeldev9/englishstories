@@ -6,6 +6,7 @@ import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 
+// ignore: must_be_immutable
 class ReadStoryScreen extends StatefulWidget {
   List<String> subCategoryNameList;
   List<String> storyDescription;
@@ -14,11 +15,11 @@ class ReadStoryScreen extends StatefulWidget {
   int index;
 
   ReadStoryScreen(
-      {required this.subCategoryNameList,
+      {Key? key, required this.subCategoryNameList,
       required this.storyDescription,
       required this.title,
       required this.description,
-      required this.index});
+      required this.index}) : super(key: key);
 
   @override
   _ReadStoryScreenState createState() => _ReadStoryScreenState();
@@ -42,8 +43,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
     description = ValueNotifier(widget.description);
     counter = ValueNotifier(widget.index);
 
-    title.notifyListeners();
-    description.notifyListeners();
 
     for (int i = 0; i < dbHelper.bookmarkList.value.length; i++) {
       if (widget.title == dbHelper.bookmarkList.value[i]['title']) {
@@ -71,7 +70,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.teal,
@@ -79,7 +77,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
         top: false,
         child: CustomScrollView(
           controller: controller,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -99,8 +97,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                     onTap: () {
                                       // Get.to();
                                       isDarkMode.value=!isDarkMode.value;
-                                      print(isDarkMode.value);
-                                      isDarkMode.notifyListeners();
                                       if(isDarkMode.value){
                                         Get.changeTheme(ThemeData.dark());
                                       }
@@ -170,7 +166,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                           .value[indexOfTitle]['id']
                                           .toString());
                                     }
-                                    dbHelper.bookmarkList.notifyListeners();
                                   },
                                   child: ValueListenableBuilder(
                                     valueListenable: isBookmarked,
@@ -220,7 +215,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
 
                 collapseMode: CollapseMode.pin,
                 title: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 25),
+                  margin: const EdgeInsets.symmetric(horizontal: 25),
                   child: ValueListenableBuilder(
                     valueListenable: isExpanded,
                     builder: (context, c, v) {
@@ -256,8 +251,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                           .subCategoryNameList[counter.value];
                                       description.value = widget
                                           .storyDescription[counter.value];
-                                      title.notifyListeners();
-                                      description.notifyListeners();
                                     }
                                   },
                                   child: Image.asset("assets/icons/previous.png",width: 16),
@@ -266,13 +259,13 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                 ValueListenableBuilder(
                                     valueListenable: title,
                                     builder: (context, c, v) {
-                                      return Container(
+                                      return SizedBox(
                                         width: 150,
                                         child: RichText(
                                           overflow: TextOverflow.ellipsis,
                                           text: TextSpan(
-                                            style: TextStyle(fontSize: 18),
-                                            text: "${title.value}",
+                                            style: const TextStyle(fontSize: 18),
+                                            text: title.value,
                                           ),
                                         ),
                                       );
@@ -307,8 +300,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                           .subCategoryNameList[counter.value];
                                       description.value = widget
                                           .storyDescription[counter.value];
-                                      title.notifyListeners();
-                                      description.notifyListeners();
                                     }
                                   },
                                   child: Image.asset("assets/icons/next.png",width: 16),
@@ -318,13 +309,13 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                           : ValueListenableBuilder(
                               valueListenable: title,
                               builder: (context, c, v) {
-                                return Container(
+                                return SizedBox(
                                   width: 250,
                                   child: RichText(
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
-                                      style: TextStyle(fontSize: 18),
-                                      text: "${title.value}",
+                                      style: const TextStyle(fontSize: 18),
+                                      text: title.value,
                                     ),
                                     textAlign: TextAlign.center,
                                   ),
@@ -335,7 +326,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                 ),
                 background: Stack(
                   children: [
-                    Container(
+                    SizedBox(
                         width: w,
                         child: Image.asset(
                           "assets/images/app_banner.jpg",
@@ -370,7 +361,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                   padding: const EdgeInsets.symmetric(
                                       horizontal: 12, vertical: 10),
                                   child: Text(
-                                    "${description.value}",
+                                    description.value,
                                     style:
                                         Theme.of(context).textTheme.subtitle1,
                                     textAlign: TextAlign.justify,

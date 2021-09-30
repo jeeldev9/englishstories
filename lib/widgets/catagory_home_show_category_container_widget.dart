@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class ShowCategoryContainerWidget extends StatelessWidget {
   late String imageName;
   late String categoryName;

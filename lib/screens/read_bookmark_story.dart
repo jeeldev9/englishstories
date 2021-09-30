@@ -5,13 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
+
+// ignore: must_be_immutable
 class ReadBookmarkStory extends StatefulWidget {
   String title;
   String description;
 
-  ReadBookmarkStory({required this.title, required this.description});
+  ReadBookmarkStory({Key? key, required this.title, required this.description}) : super(key: key);
 
   @override
   _ReadBookmarkStoryState createState() => _ReadBookmarkStoryState();
@@ -50,7 +51,7 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
 
   @override
   Widget build(BuildContext context) {
-    double h = MediaQuery.of(context).size.height;
+    
     double w = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.teal,
@@ -58,7 +59,7 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
         top: false,
         child: CustomScrollView(
           controller: controller,
-          physics: BouncingScrollPhysics(),
+          physics: const BouncingScrollPhysics(),
           slivers: [
             SliverAppBar(
               pinned: true,
@@ -77,8 +78,6 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                                   onTap: () {
                                     // Get.to();
                                     isDarkMode.value = !isDarkMode.value;
-                                    print(isDarkMode.value);
-                                    isDarkMode.notifyListeners();
                                     if (isDarkMode.value) {
                                       Get.changeTheme(ThemeData.dark());
                                     } else {
@@ -152,7 +151,6 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                                           .value[indexOfTitle]['id']
                                           .toString());
                                     }
-                                    dbHelper.bookmarkList.notifyListeners();
                                   },
                                   child: ValueListenableBuilder(
                                     valueListenable: isBookmarked,
@@ -195,18 +193,18 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 title: Container(
-                    margin: EdgeInsets.symmetric(horizontal: 25),
+                    margin: const EdgeInsets.symmetric(horizontal: 25),
                     child: ValueListenableBuilder(
                       valueListenable: isExpanded,
                       builder: (context, c, v) {
                         return isExpanded.value
-                            ? Container(
+                            ? SizedBox(
                                 width: w * 0.9,
                                 child: RichText(
                                   overflow: TextOverflow.ellipsis,
                                   text: TextSpan(
-                                    style: TextStyle(fontSize: 18),
-                                    text: "${widget.title}",
+                                    style: const TextStyle(fontSize: 18),
+                                    text: widget.title,
                                   ),
                                   textScaleFactor: 0.85,
                                 ),
@@ -216,8 +214,8 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                                 child: RichText(
                                   overflow: TextOverflow.ellipsis,
                                   text: TextSpan(
-                                    style: TextStyle(fontSize: 18),
-                                    text: "${widget.title}",
+                                    style: const TextStyle(fontSize: 18),
+                                    text: widget.title,
                                   ),
                                 ),
                               );
@@ -225,7 +223,7 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                     )),
                 background: Stack(
                   children: [
-                    Container(
+                    SizedBox(
                         width: w,
                         child: Image.asset(
                           "assets/images/app_banner.jpg",
@@ -254,10 +252,10 @@ class _ReadBookmarkStoryState extends State<ReadBookmarkStory> {
                           ),
                           width: w * 0.97,
                           child: Container(
-                              padding: EdgeInsets.symmetric(
+                              padding: const EdgeInsets.symmetric(
                                   horizontal: 12, vertical: 10),
                               child: Text(
-                                "${widget.description}",
+                                widget.description,
                                 style: Theme.of(context).textTheme.subtitle1,
                                 textAlign: TextAlign.justify,
                               )),

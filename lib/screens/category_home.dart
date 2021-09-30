@@ -1,4 +1,5 @@
 import 'package:englishstories/constant_veriable.dart';
+import 'package:englishstories/notification.dart';
 
 import 'package:englishstories/widgets/catagory_home_show_category_container_widget.dart';
 import 'package:flutter/cupertino.dart';
@@ -6,14 +7,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import 'about_screen.dart';
 import 'bookmark_screen.dart';
 
-class CategoryHome extends StatelessWidget {
+class CategoryHome extends StatefulWidget {
+  const CategoryHome({Key? key}) : super(key: key);
+
+  @override
+  State<CategoryHome> createState() => _CategoryHomeState();
+}
+
+class _CategoryHomeState extends State<CategoryHome> {
   DateTime? lastPressed;
+
   launchEmail() async {
     const url =
         "mailto:jeelbhatti.9brainz@gmail.com&subject=English Stories Contact Us&body=Hello Mr/Mrs \n";
@@ -26,16 +36,21 @@ class CategoryHome extends StatelessWidget {
   }
 
   @override
+  void initState() {
+    Provider.of<NotificationService>(context, listen: false).initialize();
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     double w = MediaQuery.of(context).size.width;
     return WillPopScope(
       onWillPop: () async {
-        
         final now = DateTime.now();
-        final maxDuration = Duration(seconds: 2);
+        const maxDuration = Duration(seconds: 2);
         final isWarning =
             lastPressed == null || now.difference(lastPressed!) > maxDuration;
-        
+
         if (isWarning) {
           lastPressed = DateTime.now();
           Fluttertoast.showToast(msg: "Double click to exit app");
@@ -119,7 +134,7 @@ class CategoryHome extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           const Text('Dark Mode'),
-                          Container(
+                          SizedBox(
                             width: w * 0.1,
                             height: 30,
                             child: CupertinoSwitch(
@@ -135,7 +150,7 @@ class CategoryHome extends StatelessWidget {
                                   preferences.setBool("isDarkMode", v);
                                   Get.changeTheme(ThemeData.light());
                                 }
-                                isDarkMode.notifyListeners();
+                                
                               },
                             ),
                           ),
@@ -146,35 +161,44 @@ class CategoryHome extends StatelessWidget {
                       },
                     );
                   }),
-              ValueListenableBuilder(
-                  valueListenable: isDailyNotification,
-                  builder: (context, c, v) {
-                    return ListTile(
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          const Text('Daily Notification'),
-                          SizedBox(
-                            width: w * 0.1,
-                            height: 30,
-                            child: CupertinoSwitch(
-                              value: isDailyNotification.value,
-                              onChanged: (v) async {
-                                SharedPreferences preferences =
-                                    await SharedPreferences.getInstance();
-                                preferences.setBool("isNotificationON", v);
-                                isDailyNotification.value = v;
-                                isDailyNotification.notifyListeners();
-                              },
-                            ),
+              Consumer<NotificationService>(
+                builder: (context, model, v) {
+                  return ValueListenableBuilder(
+                      valueListenable: isDailyNotification,
+                      builder: (context, c, v) {
+                        return ListTile(
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              const Text('Daily Notification'),
+                              SizedBox(
+                                width: w * 0.1,
+                                height: 30,
+                                child: CupertinoSwitch(
+                                  value: isDailyNotification.value,
+                                  onChanged: (v) async {
+                                    SharedPreferences preferences =
+                                        await SharedPreferences.getInstance();
+                                    preferences.setBool("isNotificationON", v);
+                                    isDailyNotification.value = v;
+                                    if (v == true) {
+                                      model.sheduledNotification();
+                                    } else {
+                                      model.cancelNotification();
+                                    }
+                                    
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                      onTap: () {
-                        Get.back();
-                      },
-                    );
-                  }),
+                          onTap: () {
+                            Get.back();
+                          },
+                        );
+                      });
+                },
+              ),
               const Divider(
                 thickness: 1.3,
               ),
@@ -260,7 +284,7 @@ class CategoryHome extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
             child: Column(
               children: List.generate(
                   dbHelper.remedieTypeDataList.length,

@@ -5,10 +5,11 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+// ignore: must_be_immutable
 class SubCategoryScreen extends StatefulWidget {
   late String subID;
   late String title;
-SubCategoryScreen({required this.subID,required this.title});
+SubCategoryScreen({Key? key, required this.subID,required this.title}) : super(key: key);
 
   @override
   State<SubCategoryScreen> createState() => _SubCategoryScreenState();
