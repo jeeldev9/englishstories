@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "424664251923",
+    "project_id": "stories-app-9",
+    "storage_bucket": "stories-app-9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:424664251923:android:b419ee91589ca7506e49e6",
+        "android_client_info": {
+          "package_name": "com.example.englishstories"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "424664251923-ft2idv3rkiv36s0ifmp2ngjmoverfb1t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZZZqdCUf4tMGQe89jhOgIXRQmaGlLxWU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "424664251923-ft2idv3rkiv36s0ifmp2ngjmoverfb1t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

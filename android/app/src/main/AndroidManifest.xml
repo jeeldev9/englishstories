@@ -11,8 +11,8 @@
     </intent>
 </queries>
    <application
-        android:label="englishstories"
-        android:icon="@mipmap/ic_launcher">
+        android:label="Stories App"
+        android:icon="@mipmap/launcher_icon">
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTop"

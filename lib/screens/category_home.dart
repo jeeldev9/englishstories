@@ -34,8 +34,15 @@ class _CategoryHomeState extends State<CategoryHome> {
     }
   }
 
+  getDb() async {
+    await dbHelper.databaseGet();
+    setState(() {});
+  }
+
   @override
   void initState() {
+    getDb();
+
     Provider.of<NotificationService>(context, listen: false).initialize();
     super.initState();
   }
@@ -61,7 +68,7 @@ class _CategoryHomeState extends State<CategoryHome> {
       child: Scaffold(
         backgroundColor: Theme.of(context).backgroundColor,
         appBar: AppBar(
-          title: const Text("English Stories"),
+          title: const Text("Stories"),
         ),
         drawer: Drawer(
           child: ListView(

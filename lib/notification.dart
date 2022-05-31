@@ -6,7 +6,7 @@ class NotificationService extends ChangeNotifier {
   final FlutterLocalNotificationsPlugin _flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
 
-  //initilize
+  //initialize
 
   Future initialize() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -29,12 +29,11 @@ class NotificationService extends ChangeNotifier {
   //Sheduled Notification
 
   Future sheduledNotification() async {
-    var interval = RepeatInterval.everyMinute;
+    var interval = RepeatInterval.daily;
 
     var android = const AndroidNotificationDetails(
       "id",
       "channel",
-      "description",
     );
 
     var platform = NotificationDetails(android: android);
