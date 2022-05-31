@@ -1,8 +1,6 @@
 import 'package:englishstories/constant_veriable.dart';
 import 'package:englishstories/screens/read_stories_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
 // ignore: must_be_immutable

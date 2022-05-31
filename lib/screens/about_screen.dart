@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:flutter/cupertino.dart';
 
 class AboutUsSscreen extends StatelessWidget {
   const AboutUsSscreen({Key? key}) : super(key: key);

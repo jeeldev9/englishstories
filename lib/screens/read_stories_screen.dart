@@ -2,7 +2,6 @@ import 'package:englishstories/constant_veriable.dart';
 import 'package:englishstories/screens/bookmark_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:share/share.dart';
 

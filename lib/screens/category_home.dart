@@ -1,15 +1,14 @@
-import 'package:englishstories/constant_veriable.dart';
-import 'package:englishstories/notification.dart';
-
-import 'package:englishstories/widgets/catagory_home_show_category_container_widget.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import 'package:englishstories/constant_veriable.dart';
+import 'package:englishstories/notification.dart';
+import 'package:englishstories/widgets/catagory_home_show_category_container_widget.dart';
 
 import 'about_screen.dart';
 import 'bookmark_screen.dart';
@@ -150,7 +149,6 @@ class _CategoryHomeState extends State<CategoryHome> {
                                   preferences.setBool("isDarkMode", v);
                                   Get.changeTheme(ThemeData.light());
                                 }
-                                
                               },
                             ),
                           ),
@@ -186,7 +184,6 @@ class _CategoryHomeState extends State<CategoryHome> {
                                     } else {
                                       model.cancelNotification();
                                     }
-                                    
                                   },
                                 ),
                               ),
