@@ -1,7 +1,9 @@
+import 'package:englishstories/ad_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -39,10 +41,12 @@ class _CategoryHomeState extends State<CategoryHome> {
     setState(() {});
   }
 
+  final myBanner =
+      MobileAdsModel().getBannerAd('ca-app-pub-5457223538074902/2512718702');
   @override
   void initState() {
     getDb();
-
+    myBanner.load();
     Provider.of<NotificationService>(context, listen: false).initialize();
     super.initState();
   }
@@ -286,21 +290,32 @@ class _CategoryHomeState extends State<CategoryHome> {
             ],
           ),
         ),
-        body: SingleChildScrollView(
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-            child: Column(
-              children: List.generate(
-                  dbHelper.remedieTypeDataList.length,
-                  (index) => ShowCategoryContainerWidget(
-                        subCategoryID: (index + 1).toString(),
-                        categoryName:
-                            "${dbHelper.remedieTypeDataList[index]['REMEDIE_NAME']}",
-                        imageName:
-                            "assets/images/${dbHelper.remedieTypeDataList[index]['IMAGE_NAME']}.png",
-                      )),
+        body: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height * 0.8 - 5,
+              padding: const EdgeInsets.only(
+                  left: 10, right: 10, top: 10, bottom: 10),
+              child: SizedBox(
+                child: ListView.builder(
+                  itemCount: dbHelper.remedieTypeDataList.length,
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) => ShowCategoryContainerWidget(
+                    subCategoryID: (index + 1).toString(),
+                    categoryName:
+                        "${dbHelper.remedieTypeDataList[index]['REMEDIE_NAME']}",
+                    imageName:
+                        "assets/images/${dbHelper.remedieTypeDataList[index]['IMAGE_NAME']}.png",
+                  ),
+                ),
+              ),
             ),
-          ),
+            SizedBox(
+              height: 60,
+              width: w,
+              child: AdWidget(ad: myBanner),
+            ),
+          ],
         ),
       ),
     );

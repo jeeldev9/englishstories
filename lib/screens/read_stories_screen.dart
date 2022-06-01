@@ -1,8 +1,10 @@
+import 'package:englishstories/ad_model.dart';
 import 'package:englishstories/constant_veriable.dart';
 import 'package:englishstories/screens/bookmark_screen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:share/share.dart';
 
 // ignore: must_be_immutable
@@ -14,11 +16,13 @@ class ReadStoryScreen extends StatefulWidget {
   int index;
 
   ReadStoryScreen(
-      {Key? key, required this.subCategoryNameList,
+      {Key? key,
+      required this.subCategoryNameList,
       required this.storyDescription,
       required this.title,
       required this.description,
-      required this.index}) : super(key: key);
+      required this.index})
+      : super(key: key);
 
   @override
   _ReadStoryScreenState createState() => _ReadStoryScreenState();
@@ -33,15 +37,18 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
   late ScrollController controller;
   late ValueNotifier<bool> isExpanded = ValueNotifier(true);
 
+  final myBanner =
+      MobileAdsModel().getBannerAd('ca-app-pub-5457223538074902/2512718702');
   @override
   void initState() {
     bool isContain = false;
-
+    MobileAdsModel()
+        .loadInterstitialVideo('ca-app-pub-5457223538074902/5922368726');
+    myBanner.load();
     //Store value in notifier
     title = ValueNotifier(widget.title);
     description = ValueNotifier(widget.description);
     counter = ValueNotifier(widget.index);
-
 
     for (int i = 0; i < dbHelper.bookmarkList.value.length; i++) {
       if (widget.title == dbHelper.bookmarkList.value[i]['title']) {
@@ -83,7 +90,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
               snap: false,
               floating: true,
               expandedHeight: 160.0,
-              
               actions: [
                 //change light to dark theme
                 ValueListenableBuilder(
@@ -93,24 +99,32 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                           ? Row(
                               children: [
                                 GestureDetector(
-                                    onTap: () {
-                                      // Get.to();
-                                      isDarkMode.value=!isDarkMode.value;
-                                      if(isDarkMode.value){
-                                        Get.changeTheme(ThemeData.dark());
-                                      }
-                                      else{
-                                        Get.changeTheme(ThemeData.light());
-                                      }
-
-
+                                  onTap: () {
+                                    // Get.to();
+                                    isDarkMode.value = !isDarkMode.value;
+                                    if (isDarkMode.value) {
+                                      Get.changeTheme(ThemeData.dark());
+                                    } else {
+                                      Get.changeTheme(ThemeData.light());
+                                    }
+                                  },
+                                  child: ValueListenableBuilder(
+                                    valueListenable: isDarkMode,
+                                    builder: (context, c, v) {
+                                      return isDarkMode.value
+                                          ? Image.asset(
+                                              "assets/icons/icons8-full-moon-96.png",
+                                              height: 35,
+                                              width: 35,
+                                            )
+                                          : Image.asset(
+                                              "assets/icons/icons8-sun-96.png",
+                                              height: 35,
+                                              width: 35,
+                                            );
                                     },
-                                    child:  ValueListenableBuilder(
-                                      valueListenable: isDarkMode,
-                                      builder: (context,c,v){
-                                        return isDarkMode.value?Image.asset("assets/icons/icons8-full-moon-96.png",height: 35,width: 35,):Image.asset("assets/icons/icons8-sun-96.png",height: 35,width: 35,);
-                                      },
-                                    ),),
+                                  ),
+                                ),
                                 const SizedBox(
                                   width: 15,
                                 ),
@@ -190,14 +204,15 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
 
                                 GestureDetector(
                                   onTap: () async {
-                                      Share.share(description.value);
-                                    },
+                                    MobileAdsModel().loadInterstitialVideo(
+                                        'ca-app-pub-5457223538074902/5922368726');
+                                    Share.share(description.value);
+                                  },
                                   child: Container(
-                                    color:Colors.transparent,
+                                    color: Colors.transparent,
                                     child: const Icon(
                                       Icons.share,
                                       size: 28,
-
                                     ),
                                   ),
                                 ),
@@ -211,7 +226,6 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
               ],
               flexibleSpace: FlexibleSpaceBar(
                 centerTitle: true,
-
                 collapseMode: CollapseMode.pin,
                 title: Container(
                   margin: const EdgeInsets.symmetric(horizontal: 25),
@@ -229,20 +243,25 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                         "",
                                         "",
                                         titleText: Container(
-                                          margin: const EdgeInsets.only(top: 22),
-                                          child:  Text(
+                                          margin:
+                                              const EdgeInsets.only(top: 22),
+                                          child: Text(
                                             "This is First Story....",
                                             style: TextStyle(
-                                              color: isDarkMode.value?CupertinoColors.white:CupertinoColors.black,
+                                              color: isDarkMode.value
+                                                  ? CupertinoColors.white
+                                                  : CupertinoColors.black,
                                               fontSize: 18,
                                             ),
                                           ),
                                         ),
-                                        backgroundColor: Theme.of(context).cardColor,
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         snackPosition: SnackPosition.BOTTOM,
                                         shouldIconPulse: false,
                                         borderRadius: 10.0,
-                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 25),
                                       );
                                     } else {
                                       counter.value -= 1;
@@ -252,9 +271,13 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                           .storyDescription[counter.value];
                                     }
                                   },
-                                  child: Image.asset("assets/icons/previous.png",width: 16),
+                                  child: Image.asset(
+                                      "assets/icons/previous.png",
+                                      width: 16),
                                 ),
-                                const SizedBox(width: 10,),
+                                const SizedBox(
+                                  width: 10,
+                                ),
                                 ValueListenableBuilder(
                                     valueListenable: title,
                                     builder: (context, c, v) {
@@ -263,13 +286,13 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                         child: RichText(
                                           overflow: TextOverflow.ellipsis,
                                           text: TextSpan(
-                                            style: const TextStyle(fontSize: 18),
+                                            style:
+                                                const TextStyle(fontSize: 18),
                                             text: title.value,
                                           ),
                                         ),
                                       );
                                     }),
-                                
                                 GestureDetector(
                                   onTap: () {
                                     if (counter.value ==
@@ -278,20 +301,25 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                         "",
                                         "",
                                         titleText: Container(
-                                          margin: const EdgeInsets.only(top: 22),
-                                          child:  Text(
+                                          margin:
+                                              const EdgeInsets.only(top: 22),
+                                          child: Text(
                                             "This is Last Story....",
                                             style: TextStyle(
-                                              color: isDarkMode.value?CupertinoColors.white:CupertinoColors.black,
+                                              color: isDarkMode.value
+                                                  ? CupertinoColors.white
+                                                  : CupertinoColors.black,
                                               fontSize: 18,
                                             ),
                                           ),
                                         ),
-                                        backgroundColor: Theme.of(context).cardColor,
+                                        backgroundColor:
+                                            Theme.of(context).cardColor,
                                         snackPosition: SnackPosition.BOTTOM,
                                         shouldIconPulse: false,
                                         borderRadius: 10.0,
-                                        padding: const EdgeInsets.symmetric(horizontal: 25),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 25),
                                       );
                                     } else {
                                       counter.value += 1;
@@ -301,7 +329,8 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                                           .storyDescription[counter.value];
                                     }
                                   },
-                                  child: Image.asset("assets/icons/next.png",width: 16),
+                                  child: Image.asset("assets/icons/next.png",
+                                      width: 16),
                                 ),
                               ],
                             )
@@ -352,7 +381,7 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                             borderRadius: BorderRadius.circular(15),
                             color: Theme.of(context).canvasColor,
                           ),
-                          width: w * 0.97,
+                          width: w * 0.9,
                           child: ValueListenableBuilder(
                             valueListenable: description,
                             builder: (context, c, v) {
@@ -371,6 +400,11 @@ class _ReadStoryScreenState extends State<ReadStoryScreen> {
                       ),
                       const SizedBox(
                         height: 20,
+                      ),
+                      SizedBox(
+                        height: 60,
+                        width: w,
+                        child: AdWidget(ad: myBanner),
                       ),
                     ],
                   );
