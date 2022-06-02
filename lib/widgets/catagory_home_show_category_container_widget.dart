@@ -42,6 +42,7 @@ class ShowCategoryContainerWidget extends StatelessWidget {
                     imageName,
                     height: 60,
                     width: 60,
+                    fit: BoxFit.cover,
                   )),
                   const SizedBox(
                     width: 10,

@@ -34,7 +34,7 @@ class AboutUsSscreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
-                    "~> All English Stories at one place in different categories. Read offline.",
+                    "~> All Stories at one place in different categories. Read offline.",
                     style: TextStyle(fontFamily: "Roboto", fontSize: 20),
                     textScaleFactor: 0.85,
                   ),
@@ -50,7 +50,7 @@ class AboutUsSscreen extends StatelessWidget {
                     height: h * 0.02,
                   ),
                   const Text(
-                    "~> 1000 English Stories with Big Ideas. Stories in English to improve your vocabulary and speaking skills. Here is a large collection of Moral Stories.",
+                    "~> 1000+ Stories with Big Ideas. Stories in English to improve your vocabulary and speaking skills. Here is a large collection of Moral Stories.",
                     style: TextStyle(fontSize: 20),
                     textScaleFactor: 0.85,
                   ),
